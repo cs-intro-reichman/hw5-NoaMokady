@@ -40,6 +40,11 @@ public class TesterWordle {
         testStoreGuess();
         testPrintBoard();
         testIsAllGreen();
+
+        // Added:
+        testGameWinRobust();
+        testGameLoseRobust();
+        testGameInvalidRobust();
     }
 
     // --- Unit Tests ---

@@ -9,6 +9,8 @@ public class Wordle {
     public static String[] readDictionary(String filename) throws IOException {
         Path filePath = Paths.get(filename);
         return Files.readAllLines(filePath).toArray(new String[0]);
+        // In fileReader = new In(filename);
+        // return fileReader.readAllLines();
     }
 
     // Choose a random secret word from the dictionary.
@@ -84,13 +86,12 @@ public class Wordle {
 
     // Returns true if all entries in resultRow are 'G'.
     public static boolean isAllGreen(char[] resultRow) {
-        Boolean isAllTrue = true;
         for (int i = 0; i < resultRow.length; i++) {
             if (resultRow[i] != 'G') {
-                isAllTrue = false;
+                return false;
             }
         }
-        return isAllTrue;
+        return true;
     }
 
     public static void main(String[] args) throws IOException {
@@ -105,8 +106,8 @@ public class Wordle {
         String secret = chooseSecretWord(dict);
 
         // Prepare 2D arrays for guesses and results
-        char[][] guesses = new char[WORD_LENGTH][WORD_LENGTH];
-        char[][] results = new char[WORD_LENGTH][WORD_LENGTH];
+        char[][] guesses = new char[MAX_ATTEMPTS][WORD_LENGTH];
+        char[][] results = new char[MAX_ATTEMPTS][WORD_LENGTH];
 
         // Prepare to read from the standart input
         In inp = new In();
@@ -134,7 +135,9 @@ public class Wordle {
             // Store guess and compute feedback
             // ... use storeGuess and computeFeedback
             storeGuess(guess, guesses, attempt);
-            computeFeedback(secret, guess, null);
+            for (int i = 0; i<WORD_LENGTH; i++) {
+                computeFeedback(secret, guess, results[i]);
+            }
 
             // Print board
             printBoard(guesses, results, attempt);
