@@ -1,22 +1,16 @@
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 public class Wordle {
 
     // Reads all words from dictionary filename into a String array.
-    public static String[] readDictionary(String filename) throws IOException {
-        Path filePath = Paths.get(filename);
-        return Files.readAllLines(filePath).toArray(new String[0]);
-        // In fileReader = new In(filename);
-        // return fileReader.readAllLines();
+    public static String[] readDictionary(String filename) {
+        In fileReader = new In(filename);
+        return fileReader.readAllLines();
     }
 
     // Choose a random secret word from the dictionary.
     // Hint: Pick a random index between 0 and dict.length (not including) using
     // Math.random()
-    public static String chooseSecretWord(String[] dict) throws IOException {
+    public static String chooseSecretWord(String[] dict) {
         int index = (int) (Math.random() * dict.length);
         return dict[index];
     }
@@ -24,22 +18,17 @@ public class Wordle {
     // Simple helper: check if letter c appears anywhere in secret (true), otherwise
     // return false.
     public static boolean containsChar(String secret, char c) {
-        // secret = secret.toLowerCase();
-        // c = Character.toLowerCase(c);
-
-        Boolean isContains = false;
         for (int i = 0; i < secret.length(); i++) {
             if (secret.charAt(i) == c) {
-                isContains = true;
+                return true;
             }
         }
-        return isContains;
+        return false;
     }
 
     // Compute feedback for a single guess into resultRow.
     // G for exact match, Y if letter appears anywhere else, _ otherwise.
     public static void computeFeedback(String secret, String guess, char[] resultRow) {
-        // you may want to use containsChar in your implementation
         secret = secret.toLowerCase();
         guess = guess.toLowerCase();
         for (int i = 0; i < secret.length(); i++) {
@@ -94,7 +83,7 @@ public class Wordle {
         return true;
     }
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
 
         int WORD_LENGTH = 5;
         int MAX_ATTEMPTS = 6;
@@ -135,7 +124,7 @@ public class Wordle {
             // Store guess and compute feedback
             // ... use storeGuess and computeFeedback
             storeGuess(guess, guesses, attempt);
-            for (int i = 0; i<WORD_LENGTH; i++) {
+            for (int i = 0; i < WORD_LENGTH; i++) {
                 computeFeedback(secret, guess, results[i]);
             }
 
